@@ -1,0 +1,49 @@
+name: Daily AI News Report
+
+# Schedule workflow
+on:
+  schedule:
+    # Run daily at 1 PM IST (UTC+5:30 = 07:30 UTC)
+    - cron: '30 7 * * *'
+  workflow_dispatch: # allows manual triggering
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    env:
+      # Supabase
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      
+      # Gemini
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      
+      # App secret for unsubscribe tokens
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      
+      # SMTP credentials
+      SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Run AI News Agent
+      - name: Run AI News Agent
+        run: |
+          python -m src.cli --report full_report.html --config config.yaml --send-email

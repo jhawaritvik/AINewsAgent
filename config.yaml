@@ -1,0 +1,131 @@
+# Rename to config.yaml and fill in your values
+scheduler:
+  timezone: "UTC"
+  daily_hour_local: 9
+
+sources:
+  rss_urls:
+    - "https://www.artificialintelligence-news.com/feed/"
+    - "https://aimagazine.com/rss"
+    - "https://techcrunch.com/tag/generative-ai/feed/"
+    - "https://techcrunch.com/category/artificial-intelligence/feed/"
+    - "https://medium.com/feed/tag/generative-ai"
+    - "https://news.mit.edu/rss/topic/artificial-intelligence"
+    - "https://bair.berkeley.edu/blog/feed.xml"
+    - "https://www.analyticsvidhya.com/blog/feed/"
+    - "https://cloud.google.com/feeds/vertex-ai-release-notes.xml"
+    - "https://www.instaclustr.com/feed/"
+    - "https://www.technologyreview.com/feed/"
+    - "https://openai.com/blog/rss/"
+    - "https://ai.googleblog.com/feeds/posts/default"
+    - "https://www.aitrends.com/feed/"
+    - "https://machinelearningmastery.com/blog/feed/"
+    - "https://blogs.nvidia.com/blog/category/ai/feed/"
+    - "https://thegradient.pub/feed/"
+    - "https://towardsdatascience.com/feed"
+    - "https://aiweekly.co/rss"
+    - "https://blogs.microsoft.com/ai/feed/"
+    - "https://unite.ai/feed"
+    - "https://artificial-intelligence.blog/feed/"
+    - "https://marktechpost.com/feed"
+    - "https://openai.com/news/rss.xml"
+    - "https://ft.com/artificial-intelligence/rss"
+    - "https://rss.nytimes.com/services/xml/rss/nyt/ArtificialIntelligence.xml"
+    - "https://theconversation.com/topics/artificial-intelligence-185/rss"
+    - "http://export.arxiv.org/rss/cs.AI"
+    - "http://export.arxiv.org/rss/cs.LG"
+    - "https://stability.ai/news"
+    - "https://paperswithcode.com/feeds/latest-papers.rss"
+    - "https://www.emergentmind.com/"
+    - "https://www.catalyzex.com/"
+    - "https://www.deeplearning.ai/the-batch/feed/"
+  reddit_subreddits:
+    - "machinelearning"
+    - "artificial"
+    - "opensourceeai"
+    - "chatgpt"
+  twitter_accounts:
+    # - "https://twitter.com/Emerj"
+    # - "https://twitter.com/nordicinst"
+    # - "https://twitter.com/StanfordHAI"
+    # - "https://twitter.com/mit_csail"
+    # - "https://twitter.com/OpenAI"
+    # - "https://twitter.com/GoogleAI"
+    # - "https://twitter.com/MIT_CSAIL"
+    # - "https://twitter.com/nvidiaai"
+    # - "https://twitter.com/DeepMind"
+    # - "https://twitter.com/AndrewYNg"
+    # - "https://twitter.com/sama"
+    # - "https://twitter.com/ylecun"
+    # - "https://twitter.com/rowancheung"
+    # - "https://twitter.com/quantumblack"
+    # - "https://twitter.com/heyBarsee"
+    # - "https://twitter.com/bilawalsidhu"
+    # - "https://twitter.com/_akhaliq"
+    # - "https://twitter.com/mreflow"
+    # - "https://twitter.com/omarsar0"
+    # - "https://twitter.com/karpathy"
+    # - "https://twitter.com/hardmaru"
+    # - "https://twitter.com/jeremyphoward"
+    # - "https://twitter.com/goodside"
+    # - "https://twitter.com/emollick"
+  nitter_instances:
+    # - "https://nitter.net"
+    # - "https://nitter.fdn.fr"
+    # - "https://nitter.unixfox.eu"
+    # - "https://nitter.poast.org"
+  # Popular AI-related hashtags (for aggregation if supported)    
+  # - "stablediffusion"
+  # - "aiart"
+  # - "midjourney"
+  # - "genai4all" 
+
+  discord:
+    enabled: false
+    bot_token: ""
+    channel_ids: []
+    per_channel_limit: 50
+
+filters:
+  include_keywords:
+    - "AI"
+    - "artificial intelligence"
+    - "LLM"
+    - "GPT"
+    - "Generative AI"
+    - "Generative AI News"
+    - "Open Source"
+    - "Open Source AI"
+    - "Open Source Generative AI"
+    - "Open Source Generative AI News"
+  exclude_domains: []
+
+llm:
+  enabled: true
+  provider: "gemini"
+  api_key: ""            # leave empty to use env var
+  api_key_env: "GEMINI_API_KEY"
+  base_url: ""           # optional, for self-hosted OpenAI-compatible endpoints
+  model: "gemini-2.5-flash"
+
+email:
+  from: "jhawaritvik@gmail.com"
+  smtp:
+    host: "smtp.gmail.com"
+    port: 587
+    username_env: "SMTP_USERNAME"
+    password_env: "SMTP_PASSWORD"
+    use_tls: true
+
+options:
+  lookback_hours: 12
+  keep_items_without_timestamp: true
+  rss_max_per_feed: 8
+  reddit_limit: 10
+  twitter_max_per_account: 12
+
+ranking:
+  source_weights:
+    twitter: 0.0
+    reddit: 10.0
+    rss: 20.0

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# VS Code settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Reports
+full_report.html
+
+# Config files containing secrets
+config.yaml
+.env
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# GitHub Actions workflow temp files (optional)
+*.bak
