@@ -21,14 +21,20 @@ import hmac
 import hashlib
 
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretvalue")
+SUPABASE_FUNCTION_URL = "https://<your-project-ref>.functions.supabase.co/unsubscribe"
 
-def generate_unsub_token(email: str) -> str:
-    return hmac.new(SECRET_KEY.encode(), email.encode(), hashlib.sha256).hexdigest()
+def generate_token(email: str) -> str:
+    """Generate HMAC-SHA256 token from email using SECRET_KEY."""
+    return hmac.new(
+        SECRET_KEY.encode(),
+        email.encode(),
+        hashlib.sha256
+    ).hexdigest()
 
-def generate_unsubscribe_link(email: str) -> str:
-    token = generate_unsub_token(email)
-    return f"https://yourapp.com/unsubscribe?email={email}&token={token}"
-
+def build_unsubscribe_link(email: str) -> str:
+    """Build unsubscribe URL pointing to Supabase Edge Function."""
+    token = generate_token(email)
+    return f"{SUPABASE_FUNCTION_URL}?email={email}&token={token}"
 
 def send_email(config, subject, html_content):
     import traceback
@@ -60,7 +66,7 @@ def send_email(config, subject, html_content):
 
             for recipient in recipients:
                 # Append personalized unsubscribe link to email body
-                unsub_link = generate_unsubscribe_link(recipient)
+                unsub_link = build_unsubscribe_link(recipient)
                 body = f"""
                 <html>
                 <body style="font-family:Arial,sans-serif;line-height:1.5;color:#333;margin:0;padding:0;">
