@@ -21,7 +21,7 @@ import hmac
 import hashlib
 
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretvalue")
-SUPABASE_FUNCTION_URL = "https://dcbatzjctqnuvzxnndpj.supabase.co/unsubscribe"
+SUPABASE_FUNCTION_URL = "https://dcbatzjctqnuvzxnndpj.functions.supabase.co/unsubscribe"
 
 def generate_token(email: str) -> str:
     """Generate HMAC-SHA256 token from email using SECRET_KEY."""
