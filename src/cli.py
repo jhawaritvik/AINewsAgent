@@ -15,27 +15,6 @@ from .fetchers.twitter import fetch_from_twitter
 from .consolidate import make_report
 from .fetchers.images import attach_og_images
 
-
-import os
-import hmac
-import hashlib
-
-SECRET_KEY = os.getenv("SECRET_KEY", "supersecretvalue")
-SUPABASE_FUNCTION_URL = "https://dcbatzjctqnuvzxnndpj.supabase.co/functions/v1/Unsubscribe"
-
-def generate_token(email: str) -> str:
-    """Generate HMAC-SHA256 token from email using SECRET_KEY."""
-    return hmac.new(
-        SECRET_KEY.encode(),
-        email.encode(),
-        hashlib.sha256
-    ).hexdigest()
-
-def build_unsubscribe_link(email: str) -> str:
-    """Build unsubscribe URL pointing to Supabase Edge Function."""
-    token = generate_token(email)
-    return f"{SUPABASE_FUNCTION_URL}?email={email}&token={token}"
-
 def send_email(config, subject, html_content):
     import traceback
 
@@ -65,33 +44,16 @@ def send_email(config, subject, html_content):
             server.login(username, password)
 
             for recipient in recipients:
-                # Append personalized unsubscribe link to email body
-                unsub_link = build_unsubscribe_link(recipient)
+                # Just the report content, no unsubscribe footer
                 body = f"""
                 <html>
                 <body style="font-family:Arial,sans-serif;line-height:1.5;color:#333;margin:0;padding:0;">
                     <div style="padding:20px;">
                     {html_content}
                     </div>
-                    <div style="
-                        position:fixed;
-                        bottom:0;
-                        width:100%;
-                        background-color:#f9f9f9;
-                        border-top:1px solid #eee;
-                        text-align:center;
-                        padding:15px 0;
-                        box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
-                    ">
-                    <a href="{unsub_link}" 
-                        style="display:inline-block;padding:10px 20px;background-color:#f44336;color:white;text-decoration:none;border-radius:5px;font-weight:bold;">
-                        Unsubscribe
-                    </a>
-                    </div>
                 </body>
                 </html>
                 """
-
 
                 msg = MIMEMultipart("alternative")
                 msg["From"] = email_cfg["from"]
@@ -110,8 +72,6 @@ def send_email(config, subject, html_content):
         print(f"Type: {type(e).__name__}")
         print(f"Args: {e.args}")
         traceback.print_exc()
-
-
 
 def filter_items(items: List[NewsItem], include_keywords: list[str], exclude_domains: list[str]) -> List[NewsItem]:
     if not include_keywords and not exclude_domains:
